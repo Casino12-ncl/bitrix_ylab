@@ -453,35 +453,35 @@ class Version20230824153425 extends Version
       'VALUE' => 'g',
       'DEF' => 'N',
       'SORT' => '500',
-      'XML_ID' => 'г',
+      'XML_ID' => 'g',
     ),
     1 => 
     array (
-      'VALUE' => 'kg',
+      'VALUE' => 'кг',
       'DEF' => 'N',
       'SORT' => '500',
-      'XML_ID' => 'кг',
+      'XML_ID' => 'kg',
     ),
     2 => 
     array (
-      'VALUE' => 'sht',
+      'VALUE' => 'шт',
       'DEF' => 'N',
       'SORT' => '500',
-      'XML_ID' => 'шт',
+      'XML_ID' => 'sht',
     ),
     3 => 
     array (
-      'VALUE' => 'up',
+      'VALUE' => 'уп',
       'DEF' => 'N',
       'SORT' => '500',
-      'XML_ID' => 'уп',
+      'XML_ID' => 'up',
     ),
     4 => 
     array (
       'VALUE' => 'л',
       'DEF' => 'N',
       'SORT' => '500',
-      'XML_ID' => 'л',
+      'XML_ID' => 'l',
     ),
   ),
   'FEATURES' => 

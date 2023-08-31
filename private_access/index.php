@@ -1,12 +1,12 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Продукт");
+$APPLICATION->SetTitle("ограниченный доступ");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:news.list", 
-	"prods", 
+	"private_access", 
 	array(
-		"IBLOCK_TYPE" => "prods",
-		"IBLOCK_ID" => "1",
+		"IBLOCK_TYPE" => "private_access",
+		"IBLOCK_ID" => "2",
 		"NEWS_COUNT" => "100",
 		"USE_SEARCH" => "N",
 		"USE_RSS" => "Y",

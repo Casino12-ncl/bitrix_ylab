@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("доступы");
+$APPLICATION->SetTitle("доступ");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:news.list", 
 	"private_access", 

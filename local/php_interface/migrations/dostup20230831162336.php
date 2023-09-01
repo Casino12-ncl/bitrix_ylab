@@ -101,6 +101,7 @@ class dostup20230831162336 extends Version
 
     public function down()
     {
-        //your code ...
+      $helper = $this->getHelperManager();
+      $ok = $helper->Iblock()->deleteIblockIfExists('private_access');
     }
 }

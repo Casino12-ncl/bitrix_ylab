@@ -16,14 +16,17 @@ $this->setFrameMode(true);
 	<?=$arResult["NAV_STRING"]?><br />
 <?endif;?>
 
-<?foreach ($arResult["ITEMS"] as $arSection):?>
+<?foreach ($arResult as $arSection):?>
     <h4><?=$arSection["NAME"]?> срок действия до: 
-    <?=$arSection["ACTIVE_TO"]?></h4>
-    
+    <?=$arSection["ACTIVE_TO"]?></h4>    
 <?endforeach?>
-
 
 <?if($arParams["DISPLAY_BOTTOM_PAGER"]):?>
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
 </div>
+<? require('/local/php_interface/init.php');
+deletePeople($time);
+echo $time;
+
+?>

@@ -25,8 +25,3 @@ $this->setFrameMode(true);
 	<br /><?=$arResult["NAV_STRING"]?>
 <?endif;?>
 </div>
-<? require('/local/php_interface/init.php');
-deletePeople($time);
-echo $time;
-
-?>

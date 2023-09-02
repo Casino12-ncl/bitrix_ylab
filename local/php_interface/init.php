@@ -1,4 +1,6 @@
 <?php 
+/** @global CDatabase $DB */
+
 use Bitrix\Main\Loader;
 use Bitrix\Main\Type\DateTime;
 function slugTranslit(&$arFields) {
@@ -18,30 +20,41 @@ function slugTranslit(&$arFields) {
 AddEventHandler("iblock", "OnBeforeIBlockElementAdd", 'slugTranslit');
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", 'slugTranslit');
 
-function deletePeople($time){
-  
-  
-  $time = date('d.m.Y H:i:s'); 
-  $time = strtotime($time);
-  $res = CIBlock::GetList(
-    Array(), 
-    Array(
-      'ACTIVE'=>'Y',       
-    ), true
+function deletePeople()
+{
+  Loader::includeModule('iblock');  
+
+  $IBLOCK_ID = 2;
+  $time = new DateTime(date("d.m.Y H:i:s"));
+
+  $res = CIBlockElement::GetList(
+      array("ID" => "ASC"),
+      array("IBLOCK_ID" => $IBLOCK_ID),
+      false,
+      false,
+      [
+          'IBLOCK_ID',
+          'ID',
+          'NAME',
+          'ACTIVE_TO'
+      ]
   );
-  while($ar_res = $res->Fetch())
-  {
-    echo $ar_res['NAME'].': '.$ar_res['ELEMENT_CNT'];
-  }
-  
-  // foreach($arResult as $arSection) {    
-  //   $peopleTime = strtotime($arSection['ACTIVE_TO']);
-  //   if($time > $peopleTime) {
-  //     CIBlockElement::Delete($arSection["ID"]);
-  //   }
-  // }
- return __METHOD__ . '();';
+
+  while ($arItem = $res->Fetch()) {
+
+    $TIMESTAMP = $arItem["ACTIVE_TO"];
+    $ELEMENT_ID = $arItem['ID'];           
+    if (CIBlock::GetPermission($IBLOCK_ID) >= 'W') {
+      $DB->StartTransaction();
+      if ($time->getTimestamp() > MakeTimeStamp($TIMESTAMP)) { 
+                    $element = (int)$ELEMENT_ID;                                            
+        CIBlockElement::Delete($element);
+      }
+    }
+  } 
+  return "deletePeople();";
 }
+
 
 
 

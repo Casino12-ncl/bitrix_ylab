@@ -11,8 +11,7 @@ class ElementList extends CBitrixComponent
         return $arParams;
     }
     public function executeComponent()
-	{
-        
+	{        
         $arParams = &$this->arParams;
         $arResult = &$this->arResult;
         $arResult = [
@@ -35,14 +34,9 @@ class ElementList extends CBitrixComponent
         );
         $arResult =[];
         while ($arItem = $dbItems->Fetch()) {
-          $arResult['ITEMS'][] = $arItem;
+          $arResult[] = $arItem;
         }
-        // var_dump($arResult['ITEMS']);
+
         $this->IncludeComponentTemplate();
-
-        
-
     }
-
-
 }

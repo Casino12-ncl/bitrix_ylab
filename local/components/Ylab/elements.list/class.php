@@ -5,7 +5,7 @@ use Bitrix\Main\Loader;
 
 class ElementList extends CBitrixComponent
 {
-    public $IBLOCK_ID = 2;
+    public $IBLOCK_ID = Array("IBLOCK_ID"=>2);
     public function onPrepareComponentParams($arParams)
 	{
         return $arParams;

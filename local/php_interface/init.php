@@ -3,28 +3,37 @@
 
 use Bitrix\Main\Loader;
 use Bitrix\Main\Type\DateTime;
-function slugTranslit(&$arFields) {
- 
-  if (strlen($arFields["NAME"]) > 0 && strlen($arFields["CODE"]) <= 0) {
-    $arParams = array(
-      "max_len" => "100", 
-      "change_case" => "L", 
-      "replace_space" => "-", 
-      "replace_other" => "-", 
-      "delete_repeat_replace" => "true",
-      "use_google" => "false",
-    );
-    $arFields["CODE"] = Cutil::translit($arFields["NAME"], "ru", $arParams);
+
+function Translit(&$arFields)
+{
+  $arFilter = Array("IBLOCK_ID"=>2);
+  $db_list = CIBlockSection::GetCount($arFilter);                        
+  if (strlen($arFields["NAME"]) > 0 && strlen($arFields["CODE"]) <= 0 && $db_list != '') {
+    $length = strlen(trim($arFields['NAME']));
+    {
+      $arr = array(
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+      );
+    
+      $res = '';
+      for ($i = 0; $i < $length-1; $i++) {
+        $res .= $arr[random_int(0, count($arr) - 1)];
+        var_dump($res);
+      }
+      $arFields['CODE'] = $res;
+    }
+
   }
 }
-AddEventHandler("iblock", "OnBeforeIBlockElementAdd", 'slugTranslit');
-AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", 'slugTranslit');
+AddEventHandler("iblock", "OnBeforeIBlockElementAdd", 'Translit');
+AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", 'Translit');
 
 function deletePeople()
 {
   Loader::includeModule('iblock');  
 
-  $IBLOCK_ID = 2;
+  $IBLOCK_ID = Array("IBLOCK_ID"=>2);
   $time = new DateTime(date("d.m.Y H:i:s"));
 
   $res = CIBlockElement::GetList(
@@ -46,10 +55,17 @@ function deletePeople()
     $ELEMENT_ID = $arItem['ID'];           
     if (CIBlock::GetPermission($IBLOCK_ID) >= 'W') {
       $DB->StartTransaction();
-      if ($time->getTimestamp() > MakeTimeStamp($TIMESTAMP)) { 
-                    $element = (int)$ELEMENT_ID;                                            
-        CIBlockElement::Delete($element);
-      }
+      if (!CIBlockElement::Delete($ELEMENT_ID)) {
+        if ($time->getTimestamp() > MakeTimeStamp($TIMESTAMP)) { 
+          $element = (int)$ELEMENT_ID;                                            
+          CIBlockElement::Delete($element);
+        }
+        $strWarning .= 'Error!';
+        $DB->Rollback();
+    } else {
+        $DB->Commit();
+    }
+     
     }
   } 
   return "deletePeople();";

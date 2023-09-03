@@ -56,7 +56,6 @@ function deletePeople()
 
   while ($arItem = $res->Fetch()) {
 
-    $TIMESTAMP = $arItem["ACTIVE_TO"];
     $ELEMENT_ID = $arItem['ID'];           
     if (CIBlock::GetPermission($IBLOCK_ID) >= 'W') {
       $DB->StartTransaction();

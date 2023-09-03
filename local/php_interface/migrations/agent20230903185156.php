@@ -31,6 +31,8 @@ class agent20230903185156 extends Version
 
     public function down()
     {
-        //your code ...
+        $helper = $this->getHelperManager();
+
+        $status = $helper->CAgent::Delete('deletePeople();');
     }
 }

@@ -33,6 +33,6 @@ class agent20230903185156 extends Version
     {
         $helper = $this->getHelperManager();
 
-        $status = $helper->CAgent::Delete('57');
+        $status = CAgent::Delete('57');
     }
 }

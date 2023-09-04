@@ -5,7 +5,7 @@ namespace Sprint\Migration;
 
 class agent20230903185156 extends Version
 {
-    protected $description = "";
+    protected $description = "агент для автоудаления просроченных гостей";
 
     protected $moduleVersion = "4.3.2";
 
@@ -33,6 +33,6 @@ class agent20230903185156 extends Version
     {
         $helper = $this->getHelperManager();
 
-        $status = $helper->CAgent::Delete('deletePeople();');
+        $status = $helper->CAgent::Delete('57');
     }
 }

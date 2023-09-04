@@ -3,9 +3,9 @@
 namespace Sprint\Migration;
 
 
-class Version20230824153425 extends Version
+class infoblock20230903185226 extends Version
 {
-    protected $description = "Техника";
+    protected $description = "";
 
     protected $moduleVersion = "4.3.2";
 
@@ -17,7 +17,7 @@ class Version20230824153425 extends Version
     {
         $helper = $this->getHelperManager();
         $helper->Iblock()->saveIblockType(array (
-  'ID' => 'prods',
+  'ID' => 'private_access',
   'SECTIONS' => 'Y',
   'EDIT_FILE_BEFORE' => '',
   'EDIT_FILE_AFTER' => '',
@@ -27,36 +27,36 @@ class Version20230824153425 extends Version
   array (
     'ru' => 
     array (
-      'NAME' => 'Продукция',
+      'NAME' => 'Доступ к закрытому разделу сайта',
       'SECTION_NAME' => '',
       'ELEMENT_NAME' => '',
     ),
     'en' => 
     array (
-      'NAME' => 'prods',
+      'NAME' => 'Access to the private section of the site',
       'SECTION_NAME' => '',
       'ELEMENT_NAME' => '',
     ),
   ),
 ));
         $iblockId = $helper->Iblock()->saveIblock(array (
-  'IBLOCK_TYPE_ID' => 'prods',
+  'IBLOCK_TYPE_ID' => 'private_access',
   'LID' => 
   array (
     0 => 's1',
   ),
-  'CODE' => 'prods',
+  'CODE' => 'private_access',
   'API_CODE' => NULL,
   'REST_ON' => 'N',
-  'NAME' => 'Продукция',
+  'NAME' => 'Доступ к закрытому разделу сайта',
   'ACTIVE' => 'Y',
   'SORT' => '500',
-  'LIST_PAGE_URL' => '#SITE_DIR#/prods/index.php?ID=#IBLOCK_ID#',
-  'DETAIL_PAGE_URL' => '#SITE_DIR#/prods/detail.php?ID=#ELEMENT_ID#',
-  'SECTION_PAGE_URL' => '#SITE_DIR#/prods/list.php?SECTION_ID=#SECTION_ID#',
+  'LIST_PAGE_URL' => '#SITE_DIR#/private_access/index.php?ID=#IBLOCK_ID#',
+  'DETAIL_PAGE_URL' => '#SITE_DIR#/private_access/detail.php?ID=#ELEMENT_ID#',
+  'SECTION_PAGE_URL' => '#SITE_DIR#/private_access/list.php?SECTION_ID=#SECTION_ID#',
   'CANONICAL_PAGE_URL' => '',
   'PICTURE' => NULL,
-  'DESCRIPTION' => 'техника',
+  'DESCRIPTION' => '',
   'DESCRIPTION_TYPE' => 'text',
   'RSS_TTL' => '24',
   'RSS_ACTIVE' => 'Y',
@@ -342,11 +342,11 @@ class Version20230824153425 extends Version
   'SECTION_CODE' => 
   array (
     'NAME' => 'Символьный код',
-    'IS_REQUIRED' => 'N',
+    'IS_REQUIRED' => 'Y',
     'DEFAULT_VALUE' => 
     array (
       'UNIQUE' => 'N',
-      'TRANSLITERATION' => 'N',
+      'TRANSLITERATION' => 'Y',
       'TRANS_LEN' => 100,
       'TRANS_CASE' => 'L',
       'TRANS_SPACE' => '-',
@@ -399,122 +399,11 @@ class Version20230824153425 extends Version
     'VISIBLE' => 'Y',
   ),
 ));
-        $helper->Iblock()->saveProperty($iblockId, array (
-  'NAME' => 'Вес',
-  'ACTIVE' => 'Y',
-  'SORT' => '500',
-  'CODE' => 'WEIGHT',
-  'DEFAULT_VALUE' => '',
-  'PROPERTY_TYPE' => 'N',
-  'ROW_COUNT' => '1',
-  'COL_COUNT' => '30',
-  'LIST_TYPE' => 'L',
-  'MULTIPLE' => 'N',
-  'XML_ID' => NULL,
-  'FILE_TYPE' => '',
-  'MULTIPLE_CNT' => '5',
-  'LINK_IBLOCK_ID' => '0',
-  'WITH_DESCRIPTION' => 'N',
-  'SEARCHABLE' => 'N',
-  'FILTRABLE' => 'N',
-  'IS_REQUIRED' => 'N',
-  'VERSION' => '1',
-  'USER_TYPE' => NULL,
-  'USER_TYPE_SETTINGS' => 'a:0:{}',
-  'HINT' => '',
-));
-            $helper->Iblock()->saveProperty($iblockId, array (
-  'NAME' => 'Единица измерения',
-  'ACTIVE' => 'Y',
-  'SORT' => '500',
-  'CODE' => 'COUNT',
-  'DEFAULT_VALUE' => '',
-  'PROPERTY_TYPE' => 'L',
-  'ROW_COUNT' => '1',
-  'COL_COUNT' => '30',
-  'LIST_TYPE' => 'L',
-  'MULTIPLE' => 'N',
-  'XML_ID' => NULL,
-  'FILE_TYPE' => '',
-  'MULTIPLE_CNT' => '5',
-  'LINK_IBLOCK_ID' => '0',
-  'WITH_DESCRIPTION' => 'N',
-  'SEARCHABLE' => 'N',
-  'FILTRABLE' => 'N',
-  'IS_REQUIRED' => 'N',
-  'VERSION' => '1',
-  'USER_TYPE' => NULL,
-  'USER_TYPE_SETTINGS' => 'a:0:{}',
-  'HINT' => '',
-  'VALUES' => 
-  array (
-    0 => 
-    array (
-      'VALUE' => 'g',
-      'DEF' => 'N',
-      'SORT' => '500',
-      'XML_ID' => 'g',
-    ),
-    1 => 
-    array (
-      'VALUE' => 'кг',
-      'DEF' => 'N',
-      'SORT' => '500',
-      'XML_ID' => 'kg',
-    ),
-    2 => 
-    array (
-      'VALUE' => 'шт',
-      'DEF' => 'N',
-      'SORT' => '500',
-      'XML_ID' => 'sht',
-    ),
-    3 => 
-    array (
-      'VALUE' => 'уп',
-      'DEF' => 'N',
-      'SORT' => '500',
-      'XML_ID' => 'up',
-    ),
-    4 => 
-    array (
-      'VALUE' => 'л',
-      'DEF' => 'N',
-      'SORT' => '500',
-      'XML_ID' => 'l',
-    ),
-  ),
-  'FEATURES' => 
-  array (
-    0 => 
-    array (
-      'MODULE_ID' => 'iblock',
-      'FEATURE_ID' => 'DETAIL_PAGE_SHOW',
-      'IS_ENABLED' => 'N',
-    ),
-    1 => 
-    array (
-      'MODULE_ID' => 'iblock',
-      'FEATURE_ID' => 'LIST_PAGE_SHOW',
-      'IS_ENABLED' => 'N',
-    ),
-  ),
-));
-    
+
     }
-/**
-     * @throws Exceptions\HelperException
-     * @return bool|void
-     */
+
     public function down()
     {
-      $helper = $this->getHelperManager();
-      $ok = $helper->Iblock()->deleteIblockIfExists('prods');
-
-      if ($ok) {
-          $this->outSuccess('Инфоблок удален');
-      } else {
-          $this->outError('Ошибка удаления инфоблока');
-      }
+        //your code ...
     }
 }

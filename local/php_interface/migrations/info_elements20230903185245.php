@@ -2,7 +2,7 @@
 
 namespace Sprint\Migration;
 
-class infoblock_elements20230829104910 extends Version
+class info_elements20230903185245 extends Version
 {
     protected $description   = "";
     protected $moduleVersion = "4.3.2";
@@ -36,13 +36,5 @@ class infoblock_elements20230829104910 extends Version
      */
     public function down()
     {
-        $helper = $this->getHelperManager();
-        $ok = $helper->Iblock()->deleteIblockIfExists('prods');
-  
-        if ($ok) {
-            $this->outSuccess('Инфоблок удален');
-        } else {
-            $this->outError('Ошибка удаления инфоблока');
-        }
     }
 }

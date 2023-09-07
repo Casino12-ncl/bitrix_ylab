@@ -1,8 +1,11 @@
 <?php
 
 use Bitrix\Iblock\IblockTable;
-
+use Bitrix\Main\Loader;
 /** @global CDatabase $DB */
+Loader::requireModule('ylab.study');
+RegisterModule("ylab.study");
+
 
 // use Bitrix\Main\Loader;
 // use Bitrix\Main\Type\DateTime;
@@ -76,18 +79,19 @@ use Bitrix\Iblock\IblockTable;
 //   return "deletePeople();";
 // }
 
-function getIdblockByIblockCode($code): ?int
-{
-  static $codes;
-  if(!isset($codes)) {
-    $arIblocks = IblockTable::query()
-    ->setSelect(['ID', 'CODE'])
-    ->setFilter((['ACTIVE'=>'Y']))
-    ->fetchAll();
-    $codes = array_column($arIblocks, 'ID', 'CODE');    
-  }
-  return $codes[$code] ?? NULL;
+// CModule::IncludeModule('ylab.study');
+// function getIdblockByIblockCode($code): ?int
+// {
+//   static $codes;
+//   if(!isset($codes)) {
+//     $arIblocks = IblockTable::query()
+//     ->setSelect(['ID', 'CODE'])
+//     ->setFilter((['ACTIVE'=>'Y']))
+//     ->fetchAll();
+//     $codes = array_column($arIblocks, 'ID', 'CODE');    
+//   }
+//   return $codes[$code] ?? NULL;
 
 
 
-}
+// }

@@ -33,6 +33,7 @@ Class ylab_study extends CModule
         Loader::includeModule("iblock");
         
         $this->InstallFiles();
+        $this->InstallEvents();
 
         RegisterModule($this->MODULE_ID);
 
@@ -40,7 +41,9 @@ Class ylab_study extends CModule
     }
     function DoUninstall()
     {
-        $this->UninstallFiles();
+        $this->UnInstallFiles();
+        $this->UnInstallEvents();
+
         UnRegisterModule($this->MODULE_ID);       
     }
     
@@ -50,11 +53,20 @@ Class ylab_study extends CModule
 
         return true;
     }
-    public function UninstallFiles()
+    public function UnInstallFiles()
     {
-        DeleteDirFilesEx("/bitrix/components/{$this->MODULE_ID}");
+        DeleteDirFilesEx('/bitrix/components/Ylab');
+        
 
         return true;
+    }
+    function InstallEvents()
+    {
+        
+    }
+    function UnInstallEvents()
+    {
+        
     }
 
 }

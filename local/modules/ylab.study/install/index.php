@@ -1,9 +1,12 @@
 <?php
+use Ylab\Study\Entity\CarTable;
+use Ylab\Study\Entity\ColorTable;
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 use Bitrix\Main\Loader;
 use Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);
+Loader::registerNamespace("Ylab\\Study\\Entity", dirname(__DIR__) . '/lib/Entity');
 IncludeModuleLangFile(__FILE__);
 Class ylab_study extends CModule
 {
@@ -34,6 +37,7 @@ Class ylab_study extends CModule
         
         $this->InstallFiles();
         $this->InstallEvents();
+        $this->InstallDB();
 
         RegisterModule($this->MODULE_ID);
 
@@ -43,6 +47,7 @@ Class ylab_study extends CModule
     {
         $this->UnInstallFiles();
         $this->UnInstallEvents();
+        $this->UnInstallDB();
 
         UnRegisterModule($this->MODULE_ID);       
     }
@@ -62,11 +67,61 @@ Class ylab_study extends CModule
     }
     function InstallEvents()
     {
+        $eventManager = \Bitrix\Main\EventManager::getInstance();
+        $eventManager->registerEventHandlerCompatible('main', 'OnBeforeProlog', $this->MODULE_ID);        
+        $eventManager->addEventHandlerCompatible("main", "OnBeforeProlog", function(&$arFields) {
+        $arFilter = Array("IBLOCK_ID"=>2);
+        $db_list = CIBlockSection::GetCount($arFilter);                        
+        if (strlen($arFields["NAME"]) > 0 && strlen($arFields["CODE"]) <= 0 && $db_list != '') {
+            $length = strlen(trim($arFields['NAME']));
+            {
+            $arr = array(
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            );
+            
+            $res = '';
+            for ($i = 0; $i < $length-1; $i++) {
+                $res .= $arr[random_int(0, count($arr) - 1)];
+                var_dump($res);
+            }
+            $arFields['CODE'] = $res;
+            }
+
+        }
+            AddEventHandler("iblock", "OnBeforeIBlockElementAdd", 'Translit');
+            AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", 'Translit');
+        });
         
     }
     function UnInstallEvents()
     {
-        
+        $eventManager = \Bitrix\Main\EventManager::getInstance();
+        $eventManager->unRegisterEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID);
+    }
+    
+    public function InstallDB()
+    {
+        $connection = \Bitrix\Main\Application::getConnection();
+        if (!$connection->isTableExists(CarTable::getTableName())) {
+            CarTable::getEntity()->createDbTable();
+        }
+        if (!$connection->isTableExists(ColorTable::getTableName())) {
+            ColorTable::getEntity()->createDbTable();
+        }
     }
 
+    public function UnInstallDB()
+    {
+        $connection = \Bitrix\Main\Application::getConnection();
+        $name = CarTable::getTableName();
+        if ($connection->isTableExists($name)) {
+            $connection->dropTable($name);
+        }
+        $name = ColorTable::getTableName();
+        if ($connection->isTableExists($name)) {
+            $connection->dropTable($name);
+        }
+    }
 }
+

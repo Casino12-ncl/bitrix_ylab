@@ -1,5 +1,5 @@
 <? 
-namespace ylab\study\Helper;
+namespace Ylab\Study\Helper;
 
 use CIBlock;
 

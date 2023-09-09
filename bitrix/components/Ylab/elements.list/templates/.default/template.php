@@ -9,6 +9,7 @@
 /** @var string $templateFolder */
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
+IncludeModuleLangFile(__FILE__);
 $this->setFrameMode(true);
 ?>
 <div class="news-list">
@@ -17,7 +18,7 @@ $this->setFrameMode(true);
 <?endif;?>
 
 <?foreach ($arResult as $arSection):?>
-    <h4><?=$arSection["NAME"]?> срок действия до: 
+    <h4><?=$arSection["NAME"]?> <?GetMessage('ACTIVE_UNTIL');?>
     <?=$arSection["ACTIVE_TO"]?></h4>    
 <?endforeach?>
 

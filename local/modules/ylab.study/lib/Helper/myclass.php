@@ -9,7 +9,7 @@ use CIBlockElement;
 class MyClass
 {   
 
-  function deletePeople()
+  public static function deletePeople()
   {
     Loader::includeModule('iblock');  
 
@@ -39,9 +39,9 @@ class MyClass
       $ELEMENT_ID = $arItem['ID'];           
       if (CIBlock::GetPermission($IBLOCK_ID) >= 'W') {
         $DB->StartTransaction();
+        $element = (int)$ELEMENT_ID;
+        CIBlockElement::Delete($ELEMENT_ID);
         if (!CIBlockElement::Delete($ELEMENT_ID)) {       
-            $element = (int)$ELEMENT_ID;                                            
-            CIBlockElement::Delete($element);      
           $strWarning .= 'Error!';
           $DB->Rollback();
       } else {
@@ -50,6 +50,6 @@ class MyClass
       
       }
     } 
-    return "deletePeople();";
+    return "Ylab\Study\Helper\MyClass::deletePeople();";
   }
 }

@@ -1,8 +1,8 @@
-
-<<?
-
+<?
 /** @global CMain $APPLICATION */
+
 use Bitrix\Main\Loader;
+
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("cars");
 

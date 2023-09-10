@@ -16,7 +16,8 @@ class ElementList extends CBitrixComponent
         $arResult = &$this->arResult;
         $arResult = [
             'ITEMS' => []
-        ];        
+        ];
+        
         Loader::includeModule('iblock');
         $dbItems = CIBlockElement::GetList(
             [],

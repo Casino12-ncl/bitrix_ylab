@@ -2,10 +2,10 @@
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
 use Bitrix\Main\Loader;
-
+use Ylab\Study\Lib\Helper\Iblock;
 class ElementList extends CBitrixComponent
 {
-    public $IBLOCK_ID = Array("IBLOCK_ID"=>2);
+    public $IBLOCK_ID = Iblock::GetIdByCode($code);
     public function onPrepareComponentParams($arParams)
 	{
         return $arParams;

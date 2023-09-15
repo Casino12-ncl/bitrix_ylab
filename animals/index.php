@@ -10,4 +10,3 @@ $APPLICATION->IncludeComponent(
     )
 );
 ?>
-</p><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

@@ -6,11 +6,13 @@ use Bitrix\Main\ErrorCollection;
 use Bitrix\Main\Grid\Options as GridOptions;
 use Bitrix\Main\Loader;
 use Bitrix\Main\UI\PageNavigation;
+use Bitrix\Main\Entity;
+use Bitrix\Main\Entity\Query;
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
     die();
 }
-
+global $class1, $class2;
 class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contract\Controllerable, \Bitrix\Main\Errorable
 {
     protected static $componentCounter = 0;
@@ -31,10 +33,10 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
         //Этот код **будет** выполняться при запуске аяксовых-действий
     }
 
-    // public function getTimeAction($format)
-    // {
-    //     return date($format);
-    // }
+    public function getDeleteAction($format)
+    {
+        return date($format);
+    }
 
     /**
      * Getting array of errors.
@@ -70,60 +72,54 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
                     'sort' => 'ID',
                     'default' => true
                 ],
-                // [
-                //     'id' => 'UF_CAR_BRAND',
-                //     'name' => 'Марка',
-                //     'sort' => 'UF_CAR_BRAND',
-                //     'default' => true
-                // ],
-                // [
-                //     'id' => 'UF_CAR_MODEL',
-                //     'name' => 'Модель',
-                //     'sort' => 'UF_CAR_MODEL',
-                //     'default' => true
-                // ],
-                // [
-                //     'id' => 'UF_PRODUCTION_DATE',
-                //     'name' => 'Дата производства',
-                //     'sort' => 'UF_PRODUCTION_DATE',
-                //     'default' => true
-                // ],
-                // [
-                //     'id' => 'UF_LOAD_CAPACITY',
-                //     'name' => 'Грузоподъемность',
-                //     'sort' => 'UF_LOAD_CAPACITY',
-                //     'default' => true
-                // ],
-                // [
-                //     'id' => 'UF_IS_COMMERCIAL',
-                //     'name' => 'Коммерческий',
-                //     'sort' => 'UF_IS_COMMERCIAL',
-                //     'default' => true
-                // ],
-                // [
-                //     'id' => 'UF_COLOR',
-                //     'name' => 'Цвет',
-                //     'sort' => 'UF_COLOR',
-                //     'default' => true
-                // ],
+                [
+                    'id' => 'UF_TYPE',
+                    'name' => 'Вид животного',
+                    'sort' => 'UF_TYPE',
+                    'default' => true
+                ],
+                [
+                    'id' => 'UF_GENDER',
+                    'name' => 'Пол',
+                    'sort' => 'UF_GENDER',
+                    'default' => true
+                ],
+                [
+                    'id' => 'UF_KLICHKA',
+                    'name' => 'Кличка',
+                    'sort' => 'UF_KLICHKA',
+                    'default' => true
+                ],                
+                [
+                    'id' => 'UF_DATE',
+                    'name' => 'Дата',
+                    'sort' => 'UF_DATE',
+                    'default' => true
+                ],
+                [
+                    'id' => 'UF_PLACE',
+                    'name' => 'место рождения',
+                    'sort' => 'UF_PLACE',
+                    'default' => true
+                ],                
             ],
-            // 'LIST_ID' => 'cars_grid_list_' . self::$componentCounter,
-            // 'GRID_ID' => 'cars_grid_' . self::$componentCounter,
-            // 'NAV_ID' => 'cars_grid_nav_' . self::$componentCounter,
-            // 'ROWS' => [],
-            // 'NAV_OBJECT' => null,
-            // 'PAGE_SIZES' => [
-            //     ['NAME' => '10', 'VALUE' => '10'],
-            //     ['NAME' => '20', 'VALUE' => '20'],
-            //     ['NAME' => '50', 'VALUE' => '50'],
-            // ],
-            // 'ACTION_PANEL' => null,
-            // 'FILTER_PARAMS' => [
-            //     ['id' => 'NAME', 'name' => 'Название', 'type' => 'text', 'default' => true],
-            //     ['id' => 'DATE_CREATE', 'name' => 'Дата создания', 'type' => 'date', 'default' => true],
-            // ],
+            'LIST_ID' => 'animal_grid_list_' . self::$componentCounter,
+            'GRID_ID' => 'animal_grid_' . self::$componentCounter,
+            'NAV_ID' => 'animal_grid_nav_' . self::$componentCounter,
+            'ROWS' => [],
+            'NAV_OBJECT' => null,
+            'PAGE_SIZES' => [
+                ['NAME' => '2', 'VALUE' => '2'],
+                ['NAME' => '3', 'VALUE' => '3'],
+                ['NAME' => '5', 'VALUE' => '5'],
+            ],
+            'ACTION_PANEL' => null,
+            'FILTER_PARAMS' => [
+                ['id' => 'NAME', 'name' => 'Название', 'type' => 'text', 'default' => true],
+                ['id' => 'DATE', 'name' => 'Дата', 'type' => 'date', 'default' => true],
+            ],
         ];
-
+        
         $navParams = (new GridOptions($arResult['GRID_ID']))->GetNavParams();
         $arResult['NAV_OBJECT'] = new PageNavigation($arResult['NAV_ID']);
         $arResult['NAV_OBJECT']->allowAllRecords(true)
@@ -131,8 +127,13 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
             ->initFromUri();
 
         $entityClass = HighloadBlockTable::compileEntity('Animal')->getDataClass();
+        $arSelect = [
+            '*',
+            'UF_NAME_TYPE' => 'UF_TYPE_REF.UF_NAME',
+            'UF_GENDER_NAME' => 'UF_GENDER_REF.UF_NAME'
+        ];        
         $query = $entityClass::query()
-            ->setSelect(['*'])
+            ->setSelect($arSelect)
             ->countTotal(true);
         if ($arResult['NAV_OBJECT']) {
             $query->setOffset($arResult['NAV_OBJECT']->getOffset());
@@ -141,17 +142,17 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
         $result = $query->exec();
         $arResult['TOTAL_ROWS_COUNT'] = $result->getCount();
         $arResult['NAV_OBJECT']->setRecordCount($arResult['TOTAL_ROWS_COUNT']);
-
+        
         while ($item = $result->fetch()) {
-            // тут можно модифицировать какие-либо поля перед присвоением в массив
-
+            $item['UF_GENDER'] = $item['UF_GENDER_NAME'];
+            $item['UF_TYPE'] = $item['UF_NAME_TYPE'];
             $arResult['ROWS'][] = [
                 'data' => $item,
                 'actions' => [],
                 'attrs' => [],
             ];
         }
-
+        
         $this->includeComponentTemplate();
     }
 }

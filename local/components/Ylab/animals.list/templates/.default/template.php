@@ -37,21 +37,7 @@ $filterParams = $arResult['FILTER_PARAMS'];
 ?>
 
 <div class="wrapper">
-    <div><?
-        echo (new Button([
-            'color' => Color::PRIMARY,
-            'icon' => Icon::DONE,
-            'text' => 'Получить время сервера',
-            'classList' => ['js-delete'],
-            'dataset' => [
-                'action' => 'getDelete',
-                'confirm' => true
-            ],
-        ]))->render();     
-    ?></div>
-    <div class="js-time-container">
-
-    </div>
+    
     <?php
 
     $arFilterComponentParams = [

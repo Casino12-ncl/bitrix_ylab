@@ -1,13 +1,12 @@
 <?php
 /**@global CMain $APPLICATION */
-
+use Bitrix\Main\Error;
 use Bitrix\Highloadblock\HighloadBlockTable;
 use Bitrix\Main\ErrorCollection;
 use Bitrix\Main\Grid\Options as GridOptions;
 use Bitrix\Main\Loader;
 use Bitrix\Main\UI\PageNavigation;
-use Bitrix\Main\Entity;
-use Bitrix\Main\Entity\Query;
+
 
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
     die();
@@ -20,11 +19,10 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
     /** @var ErrorCollection */
     protected $errorCollection;
     public function configureActions()
-    {
-        //если действия не нужно конфигурировать, то пишем просто так. И будет конфиг по умолчанию
-        return [];
-    }
-
+{
+    return [];
+}
+const HL_ENTITY = 'Animal';
     public function onPrepareComponentParams($arParams)
     {
         $this->errorCollection = new ErrorCollection();
@@ -33,11 +31,14 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
         //Этот код **будет** выполняться при запуске аяксовых-действий
     }
 
-    public function getDeleteAction($format)
+    public function deleteItemsAction(int $id)
     {
-        return date($format);
-    }
-
+        Loader::IncludeModule("highloadblock");
+        var_dump($id);
+        $entity = HighloadBlockTable::compileEntity(self::HL_ENTITY)->getDataClass();            
+        $entity::Delete($id);
+        
+    }   
     /**
      * Getting array of errors.
      * @return \Bitrix\Main\Error[]
@@ -63,7 +64,7 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
         self::$componentCounter++;
 
         Loader::requireModule('highloadblock');
-
+        
         $arResult = [
             'COLUMNS' => [
                 [
@@ -119,7 +120,7 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
                 ['id' => 'DATE', 'name' => 'Дата', 'type' => 'date', 'default' => true],
             ],
         ];
-        
+
         $navParams = (new GridOptions($arResult['GRID_ID']))->GetNavParams();
         $arResult['NAV_OBJECT'] = new PageNavigation($arResult['NAV_ID']);
         $arResult['NAV_OBJECT']->allowAllRecords(true)
@@ -148,9 +149,28 @@ class AnimalsList extends \CBitrixComponent implements \Bitrix\Main\Engine\Contr
             $item['UF_TYPE'] = $item['UF_NAME_TYPE'];
             $arResult['ROWS'][] = [
                 'data' => $item,
-                'actions' => [],
+                'actions' => [[
+                        'text' => 'Удалить из справочника',
+                        "onclick" => "BX.ajax.runComponentAction('ylab:animals.list', 'deleteItems',{
+                                mode:'class',
+                                data: { id: ".$item['ID'].",},
+                            }).then(function (response) {
+                                console.log('success');
+                                console.log(response);
+                                location.reload();
+                            },function (response) {
+                              console.log('error');
+                              console.log(response);
+                            });
+                        "],
+                        ],
+                        
+                
                 'attrs' => [],
-            ];
+            ];           
+            ?>
+            
+            <?
         }
         
         $this->includeComponentTemplate();

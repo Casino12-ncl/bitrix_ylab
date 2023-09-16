@@ -34,7 +34,7 @@ const HL_ENTITY = 'Animal';
     public function deleteItemsAction(int $id)
     {
         Loader::IncludeModule("highloadblock");
-        var_dump($id);
+
         $entity = HighloadBlockTable::compileEntity(self::HL_ENTITY)->getDataClass();            
         $entity::Delete($id);
         
@@ -126,7 +126,6 @@ const HL_ENTITY = 'Animal';
         $arResult['NAV_OBJECT']->allowAllRecords(true)
             ->setPageSize($navParams['nPageSize'])
             ->initFromUri();
-
         $entityClass = HighloadBlockTable::compileEntity('Animal')->getDataClass();
         $arSelect = [
             '*',
@@ -163,16 +162,10 @@ const HL_ENTITY = 'Animal';
                               console.log(response);
                             });
                         "],
-                        ],
-                        
-                
+                        ],   
                 'attrs' => [],
-            ];           
-            ?>
-            
-            <?
+            ];   
         }
-        
         $this->includeComponentTemplate();
     }
 }

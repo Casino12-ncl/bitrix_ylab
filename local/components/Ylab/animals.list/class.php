@@ -117,8 +117,8 @@ const HL_ENTITY = 'Animal';
             ],
             'ACTION_PANEL' => null,
             'FILTER_PARAMS' => [
-                ['id' => 'UF_NAME', 'name' => 'Название', 'type' => 'text', 'default' => true],
-                ['id' => 'UF_DATE', 'name' => 'Дата', 'type' => 'date', 'default' => true],
+                ['id' => 'UF_TYPE_REF.UF_NAME', 'name' => 'Название', 'type' => 'text', 'default' => true],
+                ['id' => 'UF_GENDER_REF.UF_NAME', 'name' => 'пол', 'type' => 'text', 'default' => true],
             ],
         ];
 

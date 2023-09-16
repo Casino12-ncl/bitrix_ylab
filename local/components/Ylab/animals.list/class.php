@@ -29,6 +29,7 @@ const HL_ENTITY = 'Animal';
 
         //подготовка параметров
         //Этот код **будет** выполняться при запуске аяксовых-действий
+        return $arParams;
     }
 
     public function deleteItemsAction(int $id)
@@ -116,8 +117,8 @@ const HL_ENTITY = 'Animal';
             ],
             'ACTION_PANEL' => null,
             'FILTER_PARAMS' => [
-                ['id' => 'NAME', 'name' => 'Название', 'type' => 'text', 'default' => true],
-                ['id' => 'DATE', 'name' => 'Дата', 'type' => 'date', 'default' => true],
+                ['id' => 'UF_NAME', 'name' => 'Название', 'type' => 'text', 'default' => true],
+                ['id' => 'UF_DATE', 'name' => 'Дата', 'type' => 'date', 'default' => true],
             ],
         ];
 
